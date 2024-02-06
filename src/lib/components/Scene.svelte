@@ -14,6 +14,7 @@
   let planeRef;
   let sphereRef;
   let spaceShipRef;
+  let loading = true;
 
   const {scene, camera, renderer } = useThrelte();
   let intersectionPoint;
@@ -73,6 +74,7 @@
     composer.render();
   });
 
+
   onMount(() => {
     setupEffectComposer();
     const raycaster = new Raycaster();
@@ -96,11 +98,16 @@
     }
 
     window.addEventListener('pointermove', onPointerMove);
+    loading = false
+
     return () => {
       window.removeEventListener('pointermove', onPointerMove);
     };
   });
+
+  
 </script>
+
 
 <T.PerspectiveCamera
   makeDefault
@@ -122,8 +129,8 @@
 
 <Starts />
 
-
 <Spaceship bind:ref={spaceShipRef} position={[0, translY, 0]} rotation={[angleZ, 0, angleZ, 'ZXY']} />
+
 
 <T.Mesh renderOrder={2} bind:ref={planeRef} visible={false} >
   <T.PlaneGeometry args={[20, 20]} />
@@ -134,5 +141,10 @@
   <T.SphereGeometry args={[0.1, 20, 20]} />
   <T.MeshBasicMaterial color={[1, 0, 0]} />
 </T.Mesh>
+
+
+
+
+
 
 
